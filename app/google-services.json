@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1031574156656",
+    "firebase_url": "https://pickachew-cab30.firebaseio.com",
+    "project_id": "pickachew-cab30",
+    "storage_bucket": "pickachew-cab30.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1031574156656:android:dc0410ab3a1c9c3d",
+        "android_client_info": {
+          "package_name": "com.example.pickachew"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1031574156656-nhspmglbb0o2f22aj7bg70gcqddl72at.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.pickachew",
+            "certificate_hash": "95e697931f2ed1d98ed2f40237897779303de5b4"
+          }
+        },
+        {
+          "client_id": "1031574156656-qo4hbiokabahd4gp23ads8nue0gt9jar.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtc2MKgY5BB6KS9HrPznwoY3e9mSsaDdo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1031574156656-qo4hbiokabahd4gp23ads8nue0gt9jar.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -26,12 +26,11 @@
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Humans"/>
+            android:text="Human"/>
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Dogs"/>
-
+            android:text="Dog"/>
     </RadioGroup>
 
 

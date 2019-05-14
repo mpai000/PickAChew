@@ -49,6 +49,9 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         currentUid = mAuth.getCurrentUser().getUid();
 
+
+
+
         checkUserSpecies();
 
         rowItems = new ArrayList<cards>();
@@ -70,15 +73,21 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onLeftCardExit(Object dataObject) {
-                //Do something on the left!
-                //You also have access to the original object.
-                //If you want to use it just cast it (String) dataObject
-                Toast.makeText(MainActivity.this, "Left!",  Toast.LENGTH_SHORT).show();
+                // get the information of the card
+                cards obj = (cards) dataObject;
+                String userId = obj.getUserId();
+                // we want to create a child on left exit
+                usersDb.child(oppositeUserSpec).child(userId).child("connections").child("nope").child(currentUid).setValue(true);
+                Toast.makeText(MainActivity.this, "BOOO!",  Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onRightCardExit(Object dataObject) {
-                Toast.makeText(MainActivity.this, "Right!",  Toast.LENGTH_SHORT).show();
+                cards obj = (cards) dataObject;
+                String userId = obj.getUserId();
+                // we want to create a child on left exit
+                usersDb.child(oppositeUserSpec).child(userId).child("connections").child("yeps").child(currentUid).setValue(true);
+                Toast.makeText(MainActivity.this, "YAAY!",  Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -173,7 +182,8 @@ public class MainActivity extends AppCompatActivity {
         oppositeSpeciesDB.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-               if(dataSnapshot.exists()){
+                // if the card not it nope or yeps, then we add it
+               if(dataSnapshot.exists() && !dataSnapshot.child("connections").child("nope").hasChild(currentUid) && !dataSnapshot.child("connections").child("yeps").hasChild(currentUid)){
 
                    cards item = new cards(dataSnapshot.getKey(), dataSnapshot.child("name").getValue().toString());
                    rowItems.add(item);

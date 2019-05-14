@@ -6,6 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/buttonstyle"
+        android:text="SignOut"
+        android:textSize="20dp"
+        android:textColor="#fff"
+        tools:ignore="MissingConstraints"
+        android:onClick="logOutUser"/>
+
     <com.lorentzos.flingswipe.SwipeFlingAdapterView
         android:id="@+id/frame"
         android:background="#ffeee9e2"

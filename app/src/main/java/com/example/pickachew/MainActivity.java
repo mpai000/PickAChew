@@ -173,18 +173,21 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 // if the card not it nope or yeps, then we add it
-               if(dataSnapshot.exists() && !dataSnapshot.child("connections").child("nope").hasChild(currentUid) && !dataSnapshot.child("connections").child("yeps").hasChild(currentUid) && dataSnapshot.child("species").getValue().toString().equals(oppositeUserSpec )){
-
-                   String profileImageUrl = "default";
-                   if (!dataSnapshot.child("profileImageUrl").getValue().equals("default")) {
-                       profileImageUrl = dataSnapshot.child("profileImageUrl").getValue().toString();
-                   }
-                   cards item = new cards(dataSnapshot.getKey(), dataSnapshot.child("name").getValue().toString(), profileImageUrl);
-                   rowItems.add(item);
-                   //al.add(dataSnapshot.child("name").getValue().toString());
-                   arrayAdapter.notifyDataSetChanged();
-               }
+                if(dataSnapshot.child("species").getValue()!=null)
+                {
+                    if(dataSnapshot.exists() && !dataSnapshot.child("connections").child("nope").hasChild(currentUid) && !dataSnapshot.child("connections").child("yeps").hasChild(currentUid) && dataSnapshot.child("species").getValue().toString().equals(oppositeUserSpec )){
+                        String profileImageUrl = "default";
+                        if (!dataSnapshot.child("profileImageUrl").getValue().equals("default")) {
+                            profileImageUrl = dataSnapshot.child("profileImageUrl").getValue().toString();
+                        }
+                        cards item = new cards(dataSnapshot.getKey(), dataSnapshot.child("name").getValue().toString(), profileImageUrl);
+                        rowItems.add(item);
+                        //al.add(dataSnapshot.child("name").getValue().toString());
+                        arrayAdapter.notifyDataSetChanged();
+                    }
+                }
             }
+
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 

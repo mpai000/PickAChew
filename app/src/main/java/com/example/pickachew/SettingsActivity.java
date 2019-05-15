@@ -49,9 +49,6 @@ public class SettingsActivity extends AppCompatActivity {
     private DatabaseReference mUserDatabase;
 
     private String userId, name, phone, profileImageUrl,userSpec;
-
-
-    // filepath
     private Uri resultUri;
 
     private final int PICK_IMAGE_REQUEST = 71;
@@ -95,15 +92,12 @@ public class SettingsActivity extends AppCompatActivity {
 
         mNameField = (EditText) findViewById(R.id.name);
         mPhoneField = (EditText) findViewById(R.id.phone);
-
         mProfileImage = (ImageView) findViewById(R.id.profileImg);
-
         mBack = (Button) findViewById(R.id.back);
         mConfirm = (Button) findViewById(R.id.confirm);
 
         mAuth = FirebaseAuth.getInstance();
         userId = mAuth.getCurrentUser().getUid();
-
         mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
@@ -152,9 +146,6 @@ public class SettingsActivity extends AppCompatActivity {
             resultUri = imageUri;
             mProfileImage.setImageURI(resultUri);
         }
-//        if (resultUri != null){
-//
-//        }
     }
 
     private void getUserInfo() {

@@ -172,7 +172,7 @@ public class SettingsActivity extends AppCompatActivity {
                         mPhoneField.setText(phone);
                     }
                     if(map.get("species")!=null){
-                        userSpec  = map.get("sex").toString();
+                        userSpec  = map.get("species").toString();
                     }
 
                     Glide.clear(mProfileImage);

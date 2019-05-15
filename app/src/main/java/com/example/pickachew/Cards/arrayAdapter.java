@@ -1,4 +1,4 @@
-package com.example.pickachew;
+package com.example.pickachew.Cards;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.pickachew.R;
 
 import java.util.List;
 

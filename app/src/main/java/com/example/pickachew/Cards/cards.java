@@ -1,4 +1,4 @@
-package com.example.pickachew;
+package com.example.pickachew.Cards;
 
 
 public class cards {

@@ -1,28 +1,34 @@
 package com.example.pickachew;
 
-public class cards {
-    private String userId;
-    private String name;
 
-    public cards(String userId, String name){
-        this.userId= userId;
+public class cards {
+    private String userID;
+    private String name;
+    private String profileImageUrl;
+    public cards (String userID, String name, String profileImageUrl){
+        this.userID = userID;
         this.name = name;
+        this.profileImageUrl = profileImageUrl;
     }
 
     public String getUserId(){
-        return userId;
+        return userID;
     }
-
-    public void setUserId(String usrId){
-        this.userId = userId;
-
+    public void setUserId(String userID){
+        this.userID = userID;
     }
 
     public String getName(){
         return name;
     }
-
     public void setName(String name){
         this.name = name;
+    }
+
+    public String getProfileImageUrl(){
+        return profileImageUrl;
+    }
+    public void setProfileImageUrl(String profileImageUrl){
+        this.profileImageUrl = profileImageUrl;
     }
 }

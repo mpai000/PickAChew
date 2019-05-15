@@ -207,7 +207,11 @@ public class MainActivity extends AppCompatActivity {
                 // if the card not it nope or yeps, then we add it
                if(dataSnapshot.exists() && !dataSnapshot.child("connections").child("nope").hasChild(currentUid) && !dataSnapshot.child("connections").child("yeps").hasChild(currentUid)){
 
-                   cards item = new cards(dataSnapshot.getKey(), dataSnapshot.child("name").getValue().toString());
+                   String profileImageUrl = "default";
+//                   if (!dataSnapshot.child("profileImageUrl").getValue().equals("default")) {
+                       profileImageUrl = (String) dataSnapshot.child("profileImageUrl").getValue();
+//                   }
+                   cards item = new cards(dataSnapshot.getKey(), (String) dataSnapshot.child("name").getValue(), profileImageUrl);
                    rowItems.add(item);
                    //al.add(dataSnapshot.child("name").getValue().toString());
                    arrayAdapter.notifyDataSetChanged();

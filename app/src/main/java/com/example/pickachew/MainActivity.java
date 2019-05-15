@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
                 cards obj = (cards) dataObject;
                 String userId = obj.getUserId();
                 // we want to create a child on left exit
-                usersDb.child(oppositeUserSpec).child(userId).child("connections").child("nope").child(currentUid).setValue(true);
+                usersDb.child(userId).child("connections").child("nope").child(currentUid).setValue(true);
                 Toast.makeText(MainActivity.this, "BOOO!",  Toast.LENGTH_SHORT).show();
             }
 
@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
                 cards obj = (cards) dataObject;
                 String userId = obj.getUserId();
                 // we want to create a child on left exit
-                usersDb.child(oppositeUserSpec).child(userId).child("connections").child("yeps").child(currentUid).setValue(true);
+                usersDb.child(userId).child("connections").child("yeps").child(currentUid).setValue(true);
                 isConnectionMatch(userId);
                 Toast.makeText(MainActivity.this, "YAAY!",  Toast.LENGTH_SHORT).show();
             }
@@ -115,14 +115,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void isConnectionMatch(String userId) {
-        DatabaseReference currentUserConnectionsDb = usersDb.child(userSpec).child(currentUid).child("connections").child("yeps").child(userId);
+        DatabaseReference currentUserConnectionsDb = usersDb.child(currentUid).child("connections").child("yeps").child(userId);
         currentUserConnectionsDb.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()){
                     Toast.makeText(MainActivity.this, "new connection made", Toast.LENGTH_SHORT).show();
-                    usersDb.child(oppositeUserSpec).child(dataSnapshot.getKey()).child("connections").child("matches").child(currentUid).setValue(true);
-                    usersDb.child(userSpec).child(currentUid).child("connections").child("matches").child(dataSnapshot.getKey()).setValue(true);
+                    usersDb.child(dataSnapshot.getKey()).child("connections").child("matches").child(currentUid).setValue(true);
+                    usersDb.child(currentUid).child("connections").child("matches").child(dataSnapshot.getKey()).setValue(true);
 
                 }
             }
@@ -139,59 +139,26 @@ public class MainActivity extends AppCompatActivity {
     private String oppositeUserSpec;
     public void checkUserSpecies(){
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        DatabaseReference dogDB = FirebaseDatabase.getInstance().getReference().child("Users").child("Dog");
-        dogDB.addChildEventListener(new ChildEventListener() {
+        DatabaseReference userDb = usersDb.child(user.getUid());
+        userDb.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                if(dataSnapshot.getKey().equals(user.getUid())){
-                    userSpec = "Dog";
-                    oppositeUserSpec = "Human";
-                    getOppositeSpeciesUser();
-
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()){
+                    if (dataSnapshot.child("species").getValue() != null){
+                        userSpec = (String) dataSnapshot.child("species").getValue();
+                        switch (userSpec){
+                            case "Human":
+                                oppositeUserSpec = "Dog";
+                                break;
+                            case "Dog":
+                                oppositeUserSpec = "Human";
+                                break;
+                        }
+                        getOppositeSpeciesUser();
+                    }
                 }
             }
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
-            }
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-
-        DatabaseReference humanDB = FirebaseDatabase.getInstance().getReference().child("Users").child("Human");
-        humanDB.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                if(dataSnapshot.getKey().equals(user.getUid())){
-                    userSpec = "Human";
-                    oppositeUserSpec = "Dog";
-                    getOppositeSpeciesUser();
-
-                }
-            }
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
@@ -200,12 +167,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getOppositeSpeciesUser(){
-        DatabaseReference oppositeSpeciesDB = FirebaseDatabase.getInstance().getReference().child("Users").child(oppositeUserSpec);
-        oppositeSpeciesDB.addChildEventListener(new ChildEventListener() {
+        usersDb.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 // if the card not it nope or yeps, then we add it
-               if(dataSnapshot.exists() && !dataSnapshot.child("connections").child("nope").hasChild(currentUid) && !dataSnapshot.child("connections").child("yeps").hasChild(currentUid)){
+               if(dataSnapshot.exists() && !dataSnapshot.child("connections").child("nope").hasChild(currentUid) && !dataSnapshot.child("connections").child("yeps").hasChild(currentUid) && dataSnapshot.child("species").getValue().toString().equals(oppositeUserSpec )){
 
                    String profileImageUrl = "default";
                    if (!dataSnapshot.child("profileImageUrl").getValue().equals("default")) {
@@ -246,7 +212,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void goToSettings(View view) {
         Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-        intent.putExtra("userSpec", userSpec);
         startActivity(intent);
         return;
     }

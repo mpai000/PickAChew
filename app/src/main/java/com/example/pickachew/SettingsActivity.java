@@ -48,7 +48,7 @@ public class SettingsActivity extends AppCompatActivity {
     private StorageReference storageReference;
     private DatabaseReference mUserDatabase;
 
-    private String userId, name, phone, profileImageUrl;
+    private String userId, name, phone, profileImageUrl,userSpec;
 
 
     // filepath
@@ -92,7 +92,6 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-        String userSpec = getIntent().getExtras().getString("userSpec");
 
         mNameField = (EditText) findViewById(R.id.name);
         mPhoneField = (EditText) findViewById(R.id.phone);
@@ -105,7 +104,7 @@ public class SettingsActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         userId = mAuth.getCurrentUser().getUid();
 
-        mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(userSpec).child(userId);
+        mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
 
@@ -171,6 +170,9 @@ public class SettingsActivity extends AppCompatActivity {
                     if(map.get("phone")!=null){
                         phone = map.get("phone").toString();
                         mPhoneField.setText(phone);
+                    }
+                    if(map.get("species")!=null){
+                        userSpec  = map.get("sex").toString();
                     }
 
                     Glide.clear(mProfileImage);

@@ -208,10 +208,10 @@ public class MainActivity extends AppCompatActivity {
                if(dataSnapshot.exists() && !dataSnapshot.child("connections").child("nope").hasChild(currentUid) && !dataSnapshot.child("connections").child("yeps").hasChild(currentUid)){
 
                    String profileImageUrl = "default";
-//                   if (!dataSnapshot.child("profileImageUrl").getValue().equals("default")) {
-                       profileImageUrl = (String) dataSnapshot.child("profileImageUrl").getValue();
-//                   }
-                   cards item = new cards(dataSnapshot.getKey(), (String) dataSnapshot.child("name").getValue(), profileImageUrl);
+                   if (!dataSnapshot.child("profileImageUrl").getValue().equals("default")) {
+                       profileImageUrl = dataSnapshot.child("profileImageUrl").getValue().toString();
+                   }
+                   cards item = new cards(dataSnapshot.getKey(), dataSnapshot.child("name").getValue().toString(), profileImageUrl);
                    rowItems.add(item);
                    //al.add(dataSnapshot.child("name").getValue().toString());
                    arrayAdapter.notifyDataSetChanged();

@@ -36,16 +36,12 @@ public class MatchesAdapter extends RecyclerView.Adapter<MatchesViewHolder>{
     @Override
     public void onBindViewHolder(MatchesViewHolder holder, int position) {
         holder.mMatchId.setText(matchesList.get(position).getUserID());
-//        holder.mMatchName.setText(matchesList.get(position).getName());
-//        try {
-//            holder.mCuisine.setText(matchesList.get(position).getCuisine());
-//        }
-//        catch (java.lang.NullPointerException e){
-//            e.printStackTrace();
-//        }
-//        if(!matchesList.get(position).getProfileImageUrl().equals("default")){
-//            Glide.with(context).load(matchesList.get(position).getProfileImageUrl()).into(holder.mMatchImage);
+        holder.mMatchName.setText(matchesList.get(position).getName());
+
+        if (!matchesList.get(position).getProfileImageUrl().equals("default")) {
+            Glide.with(context).load(matchesList.get(position).getProfileImageUrl()).into(holder.mMatchImage);
         }
+    }
 
 
     @Override

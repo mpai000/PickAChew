@@ -19,6 +19,14 @@
             android:paddingBottom="20sp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_person_black_24dp"
+            android:drawablePadding="10dp"
+            android:text="Match's Id"
+            android:id="@+id/MatchName"/>
+        <TextView
+            android:paddingBottom="20sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:drawableLeft="@drawable/ic_featured_video_black_24dp"
             android:drawablePadding="10dp"
             android:text="Match's Id"

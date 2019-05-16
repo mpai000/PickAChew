@@ -123,8 +123,11 @@ public class MainActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()){
                     Toast.makeText(MainActivity.this, "new connection made", Toast.LENGTH_SHORT).show();
-                    usersDb.child(dataSnapshot.getKey()).child("connections").child("matches").child(currentUid).setValue(true);
-                    usersDb.child(currentUid).child("connections").child("matches").child(dataSnapshot.getKey()).setValue(true);
+                    String key = FirebaseDatabase.getInstance().getReference().child("Chat").push().getKey();
+
+
+                    usersDb.child(dataSnapshot.getKey()).child("connections").child("matches").child(currentUid).child("ChatId").setValue(key);
+                    usersDb.child(currentUid).child("connections").child("matches").child(dataSnapshot.getKey()).child("ChatId").setValue(key);
 
                 }
             }
@@ -173,18 +176,21 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 // if the card not it nope or yeps, then we add it
-               if(dataSnapshot.exists() && !dataSnapshot.child("connections").child("nope").hasChild(currentUid) && !dataSnapshot.child("connections").child("yeps").hasChild(currentUid) && dataSnapshot.child("species").getValue().toString().equals(oppositeUserSpec )){
-
-                   String profileImageUrl = "default";
-                   if (!dataSnapshot.child("profileImageUrl").getValue().equals("default")) {
-                       profileImageUrl = dataSnapshot.child("profileImageUrl").getValue().toString();
-                   }
-                   cards item = new cards(dataSnapshot.getKey(), dataSnapshot.child("name").getValue().toString(), profileImageUrl);
-                   rowItems.add(item);
-                   //al.add(dataSnapshot.child("name").getValue().toString());
-                   arrayAdapter.notifyDataSetChanged();
-               }
+                if(dataSnapshot.child("species").getValue()!=null)
+                {
+                    if(dataSnapshot.exists() && !dataSnapshot.child("connections").child("nope").hasChild(currentUid) && !dataSnapshot.child("connections").child("yeps").hasChild(currentUid) && dataSnapshot.child("species").getValue().toString().equals(oppositeUserSpec )){
+                        String profileImageUrl = "default";
+                        if (!dataSnapshot.child("profileImageUrl").getValue().equals("default")) {
+                            profileImageUrl = dataSnapshot.child("profileImageUrl").getValue().toString();
+                        }
+                        cards item = new cards(dataSnapshot.getKey(), dataSnapshot.child("name").getValue().toString(), profileImageUrl);
+                        rowItems.add(item);
+                        //al.add(dataSnapshot.child("name").getValue().toString());
+                        arrayAdapter.notifyDataSetChanged();
+                    }
+                }
             }
+
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 

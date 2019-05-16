@@ -15,6 +15,13 @@
         android:orientation="vertical"
         android:padding="20sp">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add An Image"
+            android:textSize="15dp"
+            android:textColor="@color/black"
+            />
         <ImageView
             android:id="@+id/profileImg"
             android:layout_width="100sp"

@@ -7,19 +7,42 @@
     tools:context=".ChooseLoginRegisterationActivity"
     android:orientation="vertical">
 
-    <Button
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="70dp"
+        android:paddingBottom="70dp"
+        android:layout_gravity="center"
+        android:background="@drawable/buttonstyle2">
+
+        <TextView
+            android:id="@+id/WelcomeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Pick-A-Chew"
+            android:textColor="#fff"
+            android:textSize="50sp" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <Button
         android:id="@+id/login"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="50dp"
         android:background="@drawable/buttonstyle"
         android:text="Login"
         android:textSize="20dp"
         android:textColor="#fff" />
 
 
-    <Button
+        <Button
         android:id="@+id/register"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -29,5 +52,10 @@
         android:text="Register"
         android:textSize="20dp"
         android:textColor="#fff" />
+
+
+    </LinearLayout>
+
+
 
 </LinearLayout>

@@ -193,58 +193,67 @@ public class SettingsActivity extends AppCompatActivity {
         name = mNameField.getText().toString();
         phone = mPhoneField.getText().toString();
 
-        Map userInfo = new HashMap();
-        userInfo.put("name", name);
-        userInfo.put("phone", phone);
-        mUserDatabase.updateChildren(userInfo);
+        if (name.matches("")){
+            Toast.makeText(SettingsActivity.this,"Must enter name",Toast.LENGTH_LONG).show();
 
-        if(resultUri != null){
-            uploadImage();
-            final StorageReference filepath = FirebaseStorage.getInstance().getReference().child("profileImages").child(userId);
-            Bitmap bitmap = null;
-
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(getApplication().getContentResolver(), resultUri);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 20, baos);
-            byte[] data = baos.toByteArray();
-            UploadTask uploadTask = filepath.putBytes(data);
-            uploadTask.addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    finish();
-                }
-            });
-
-            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    filepath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            Map newImage = new HashMap();
-                            newImage.put("profileImageUrl", uri.toString());
-                            mUserDatabase.updateChildren(newImage);
-
-                            finish();
-                            return;
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception exception) {
-                            finish();
-                            return;
-                        }
-                    });
-                }
-            });
-        }else{
-            finish();
         }
+        else{
+            Map userInfo = new HashMap();
+            userInfo.put("name", name);
+            userInfo.put("phone", phone);
+            mUserDatabase.updateChildren(userInfo);
+
+            if(resultUri != null){
+                uploadImage();
+                final StorageReference filepath = FirebaseStorage.getInstance().getReference().child("profileImages").child(userId);
+                Bitmap bitmap = null;
+
+                try {
+                    bitmap = MediaStore.Images.Media.getBitmap(getApplication().getContentResolver(), resultUri);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 20, baos);
+                byte[] data = baos.toByteArray();
+                UploadTask uploadTask = filepath.putBytes(data);
+                uploadTask.addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        finish();
+                    }
+                });
+
+                uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        filepath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                Map newImage = new HashMap();
+                                newImage.put("profileImageUrl", uri.toString());
+                                mUserDatabase.updateChildren(newImage);
+
+                                finish();
+                                return;
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception exception) {
+                                finish();
+                                return;
+                            }
+                        });
+                    }
+                });
+            }else{
+                finish();
+            }
+        }
+
+
+
     }
 }
 

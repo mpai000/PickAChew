@@ -71,32 +71,38 @@ public class RegisterationActivity extends AppCompatActivity {
 
                 final RadioButton radioButton = (RadioButton) findViewById(selectid);
                 //the user must choose something
-                if(radioButton.getText()==null){
-                    return;
-                }
+//                if(radioButton.getText()==null){
+//                    return;
+//                }
 
                 // we get the email and password
                 final String email = mEmail.getText().toString();
                 final String password = mPassword.getText().toString();
                 final String name = mName.getText().toString();
-                mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(RegisterationActivity.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        // check if the firebase cration was successful or not
-                        if(!task.isSuccessful()){
-                            Toast.makeText(RegisterationActivity.this, "sign up error", Toast.LENGTH_SHORT).show();
-                        }else{
-                            String userId= mAuth.getCurrentUser().getUid();
-                            DatabaseReference currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
-                            Map userInfo = new HashMap<>();
-                            userInfo.put("name", name);
-                            userInfo.put("species", radioButton.getText().toString());
-                            userInfo.put("profileImageUrl", "default");
-                            currentUserDb.updateChildren(userInfo);
-                        }
 
-                    }
-                });
+                if(email.matches("")|| password.matches("")|| name.matches("")||mRadioGroup.getCheckedRadioButtonId()==-1){
+                    Toast.makeText(RegisterationActivity.this,"All Fields must be filled to register",Toast.LENGTH_LONG).show();
+
+                }
+                else{
+                    mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(RegisterationActivity.this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            // check if the firebase cration was successful or not
+                            if(!task.isSuccessful()){
+                                Toast.makeText(RegisterationActivity.this, "sign up error", Toast.LENGTH_SHORT).show();
+                            }else{
+                                String userId= mAuth.getCurrentUser().getUid();
+                                DatabaseReference currentUserDb = FirebaseDatabase.getInstance().getReference().child("Users").child(userId);
+                                Map userInfo = new HashMap<>();
+                                userInfo.put("name", name);
+                                userInfo.put("species", radioButton.getText().toString());
+                                userInfo.put("profileImageUrl", "default");
+                                currentUserDb.updateChildren(userInfo);
+                            }
+                        }
+                    });
+                }
 
             }
         });

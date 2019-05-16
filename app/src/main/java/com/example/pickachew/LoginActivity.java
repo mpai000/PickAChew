@@ -51,25 +51,39 @@ public class LoginActivity extends AppCompatActivity {
         mPasword = (EditText) findViewById(R.id.password);
         mLoginBtn = (Button) findViewById(R.id.loginBtn);
 
-        mLoginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // we get the email and password
-                final String email = mEmail.getText().toString();
-                final String password = mPasword.getText().toString();
-                mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        // check if the firebase cration was successful or not
-                        if(!task.isSuccessful()){
-                            Toast.makeText(LoginActivity.this, "sign in error", Toast.LENGTH_SHORT).show();
-                        }
+        final String email = mEmail.getText().toString();
+        final String password = mPasword.getText().toString();
+
+
+
+
+            mLoginBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // we get the email and password
+                    final String email = mEmail.getText().toString();
+                    final String password = mPasword.getText().toString();
+                    if(email.matches("")|| password.matches("")){
+                        Toast.makeText(LoginActivity.this,"All Fields must be filled to login",Toast.LENGTH_LONG).show();
 
                     }
-                });
+                    else{
+                        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                // check if the firebase cration was successful or not
+                                if(!task.isSuccessful()){
+                                    Toast.makeText(LoginActivity.this, "sign in error", Toast.LENGTH_SHORT).show();
+                                }
 
-            }
-        });
+                            }
+                        });
+
+                    }
+                }
+            });
+
+
 
     }
 
